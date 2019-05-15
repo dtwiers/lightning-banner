@@ -1,0 +1,41 @@
+<!--
+ - Created by Derek.Wiers on 5/13/2019.
+ -->
+
+<aura:component description="Banner" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="variant" type="String"/>
+    <aura:attribute name="iconName" type="String"/>
+    <aura:attribute name="content" type="String"/>
+    <aura:attribute name="parsedContent" type="String"/>
+    <aura:attribute name="linkText" type="String"/>
+    <aura:attribute name="parsedLinkText" type="String"/>
+    <aura:attribute name="linkUrl" type="String"/>
+    <aura:attribute name="parsedLinkUrl" type="String"/>
+    <aura:attribute name="striped" type="Boolean" default="true"/>
+    <aura:attribute name="record" type="Object"/>
+<!--    <aura:attribute name="fullRecord" type="Object"/>-->
+
+    <force:recordData
+        recordId="{!v.recordId}"
+        recordUpdated="{!c.parseContent}"
+        targetFields="{!v.record}"
+        layoutType="FULL"
+    />
+
+    <div class="{!'slds-notify slds-notify_alert' + (v.striped ? ' slds-theme_alert-texture' : '') + ' slds-theme_' + v.variant}" role="alert">
+        <aura:if isTrue="{!!empty(v.iconName)}">
+            <lightning:icon
+                    alternativeText="{!v.iconName}"
+                    class="slds-m-right_x-small"
+                    iconName="{!v.iconName}"
+                    size="x-small"
+                    variant="bare"/>
+        </aura:if>
+        <h2>
+            {!v.parsedContent}
+            <aura:if isTrue="{!!and(empty(v.linkUrl), !empty(v.linkText))}">
+                <a href="{!v.parsedLinkUrl}" target="_blank" class="slds-m-left_xx-small">{!v.parsedLinkText}</a>
+            </aura:if>
+        </h2>
+    </div>
+</aura:component>
